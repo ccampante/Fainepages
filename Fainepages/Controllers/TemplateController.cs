@@ -6,31 +6,31 @@ using System.Web.Mvc;
 
 namespace Fainepages.Controllers
 {
-    public class HomeController : Controller
+    public class TemplateController : Controller
     {
+        // GET: Template
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult ConfiguraTemplate()
         {
-            ViewBag.Message = "Gerenciador de templates HTML.";
-
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult ConfiguraAtributos()
         {
-            ViewBag.Message = "Contato";
-
             return View();
         }
 
-        public ActionResult Login()
+        public ActionResult UploadArquivos()
         {
-            ViewBag.Message = "Faça o Login";
+            return View();
+        }
 
+        public ActionResult Conclusao()
+        {
             return View();
         }
     }
