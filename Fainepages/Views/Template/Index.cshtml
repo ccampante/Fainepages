@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Fainepages.Models.Template>
+@{
+    ViewBag.Title = "Páginas criadas";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Páginas HTML</h2>
+
+<div class="row">
+
+    <div class="col-lg-12">
+
+        <p>
+            @Html.ActionLink("Incluir Novo", "Create")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TemplateId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Titulo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DtCriacao)
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TemplateId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtCriacao)
+                    </td>
+                    <td class="right">
+                        @Html.ActionLink("Edita", "ConfiguraTemplate", new { id = item.TemplateId }) |
+                        @Html.ActionLink("Duplicar", "DuplicarTemplate", new { id = item.TemplateId }) |
+                        @Html.ActionLink("Delete", "DeletarTemplate", new { id=item.TemplateId })
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+
+</div>
+
+
