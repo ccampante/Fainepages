@@ -1,5 +1,21 @@
-﻿@{
+﻿@model Fainepages.Models.Template
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    bool temForm = false;
+    bool temGA = false;
+    bool temGTM = false;
+    bool temSmartlook = false;
+
+    if (Model != null)
+    {
+        temForm = Model.Formulario;
+        temGA = Model.Analytics;
+        temGTM = Model.TagManager;
+        temSmartlook = Model.Smartlook;
+    }
+
 }
 
 <div class="panel panel-default">
@@ -28,7 +44,17 @@
 
 <h2>Step 2</h2>
 
-<form>
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    if (Model != null)
+    {
+        @Html.HiddenFor(model => model.TemplateId);
+    }
 
     <div class="row">
         <div class="col-lg-12">
@@ -39,29 +65,44 @@
                     <div>
                         <div class="col-lg-10">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="alt" placeholder="Alt">
+                                <input type="text" class="form-control" id="alt" name="alt" placeholder="Alt">
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <button type="button" class="btn btn-default">Incluir</button>
+                                <button type="submit" name="submit" id="imagem" value="imagem" class="btn btn-default">Incluir</button>
                             </div>
                         </div>
                     </div>
                     <div>
                         <table class="table table-hover">
                             <tr>
-                                <th width="10%">Id</th>
+                                <th width="10%">Tag</th>
                                 <th width="90%">Alt</th>
                             </tr>
+                            @if (Model.Atributo != null)
+                            {
+                                foreach (var img in Model.Atributo)
+                                {
+                                    if (img.Tipo.Equals(Util.TipoAtributo.Imagem.ToString()))
+                                    {
+                                        <tr>
+                                            <td>#ALT@(Html.DisplayFor(modelItem => img.AtributoId))</td>
+                                            <td>@Html.DisplayFor(modelItem => img.Texto)</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            
+
                         </table>
                     </div>
-                    
+
 
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <div class="row">
@@ -73,21 +114,34 @@
                     <div>
                         <div class="col-lg-10">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="url" placeholder="Url">
+                                <input type="text" class="form-control" id="url" name="url" placeholder="Url">
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <button type="button" class="btn btn-default">Incluir</button>
+                                <button type="submit" name="submit" id="video" value="video" class="btn btn-default">Incluir</button>
                             </div>
                         </div>
                     </div>
                     <div>
                         <table class="table table-hover">
                             <tr>
-                                <th width="10%">Id</th>
+                                <th width="10%">Tag</th>
                                 <th width="90%">Url</th>
                             </tr>
+                            @if (Model.Atributo != null)
+                            {
+                                foreach (var vdo in Model.Atributo)
+                                {
+                                    if (vdo.Tipo.Equals(Util.TipoAtributo.Video.ToString()))
+                                    {
+                                        <tr>
+                                            <td>#URL@(Html.DisplayFor(modelItem => vdo.AtributoId))</td>
+                                            <td>@Html.DisplayFor(modelItem => vdo.Url)</td>
+                                        </tr>
+                                    }
+                                }
+                            }
                         </table>
                     </div>
 
@@ -107,15 +161,15 @@
                     <div>
                         <div class="col-lg-8">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="link" placeholder="Url">
+                                <input type="text" class="form-control" id="link" name="link" placeholder="Link">
                             </div>
                         </div>
                         <div class="col-lg-2">
-                            <input type="checkbox" id="janela"> <label for="janela">Abrir em nova guia</label>
+                            <input type="checkbox" id="novaguia" name="novaguia"> <label for="novaguia">Abrir em nova guia</label>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <button type="button" class="btn btn-default">Incluir</button>
+                                <button type="submit" name="submit" id="blink" value="blink" class="btn btn-default">Incluir</button>
                             </div>
                         </div>
                     </div>
@@ -126,6 +180,20 @@
                                 <th width="80%">Url</th>
                                 <th width="10%">Nova guia</th>
                             </tr>
+                            @if (Model.Atributo != null)
+                            {
+                                foreach (var lnk in Model.Atributo)
+                                {
+                                    if (lnk.Tipo.Equals(Util.TipoAtributo.Link.ToString()))
+                                    {
+                                        <tr>
+                                            <td>#LNK@(Html.DisplayFor(modelItem => lnk.AtributoId))</td>
+                                            <td>@Html.DisplayFor(modelItem => lnk.Url)</td>
+                                            <td>@Html.DisplayFor(modelItem => lnk.NovaGuia)</td>
+                                        </tr>
+                                    }
+                                }
+                            }
                         </table>
                     </div>
 
@@ -145,20 +213,20 @@
                     <div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="legenda" placeholder="Legenda">
+                                <input type="text" class="form-control" name="legenda" id="legenda" placeholder="Legenda">
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="link" placeholder="Url">
+                                <input type="text" class="form-control" name="botaourl" id="botaourl" placeholder="Url">
                             </div>
                         </div>
                         <div class="col-lg-2">
-                            <input type="checkbox" id="janela"> <label for="janela">Abrir em nova guia</label>
+                            <input type="checkbox" name="botaonovaguia" id="botaonovaguia"> <label for="botaonovaguia">Abrir em nova guia</label>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <button type="button" class="btn btn-default">Incluir</button>
+                                <button type="submit" name="submit" id="botao" value="botao" class="btn btn-default">Incluir</button>
                             </div>
                         </div>
                     </div>
@@ -170,6 +238,21 @@
                                 <th width="40%">Url</th>
                                 <th width="10%">Nova guia</th>
                             </tr>
+                            @if (Model.Atributo != null)
+                            {
+                                foreach (var btn in Model.Atributo)
+                                {
+                                    if (btn.Tipo.Equals(Util.TipoAtributo.Botao.ToString()))
+                                    {
+                                        <tr>
+                                            <td>#BTN@(Html.DisplayFor(modelItem => btn.AtributoId))</td>
+                                            <td>@Html.DisplayFor(modelItem => btn.Texto)</td>
+                                            <td>@Html.DisplayFor(modelItem => btn.Url)</td>
+                                            <td>@Html.DisplayFor(modelItem => btn.NovaGuia)</td>
+                                        </tr>
+                                    }
+                                }
+                            }
                         </table>
                     </div>
 
@@ -180,65 +263,90 @@
 
     </div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">FORMULÁRIO</div>
-                <div class="panel-body">
+    if (temForm)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">FORMULÁRIO</div>
+                    <div class="panel-body">
 
-                    <textarea class="form-control" rows="6" id="formulario"></textarea>
+                        @Html.TextAreaFor(model => model.FormularioCode, new { @class = "form-control", @rows = "6" })
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        
+    }
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">GOOGLE ANALYTICS (GA)</div>
-                <div class="panel-body">
+    if (temGA)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">GOOGLE ANALYTICS (GA)</div>
+                    <div class="panel-body">
 
-                    <textarea class="form-control" rows="6" id="formulario"></textarea>
+                        @Html.TextAreaFor(model => model.AnalyticsCode, new { @class = "form-control", @rows = "6" })
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">GOOGLE TAG MANAGER (GTM)</div>
-                <div class="panel-body">
+    if (temGTM)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">GOOGLE TAG MANAGER (GTM)</div>
+                    <div class="panel-body">
 
-                    <textarea class="form-control" rows="6" id="formulario"></textarea>
+                        @Html.TextAreaFor(model => model.TagManagerCode, new { @class = "form-control", @rows = "6" })
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">SMARTLOOK</div>
-                <div class="panel-body">
+    if (temSmartlook)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">SMARTLOOK</div>
+                    <div class="panel-body">
 
-                    <textarea class="form-control" rows="6" id="formulario"></textarea>
+                        @Html.TextAreaFor(model => model.SmartlookCode, new { @class = "form-control", @rows = "6" })
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 
     <div class="row">
         <div class="col-lg-6">
-            <button type="button" class="btn btn-default">Voltar</button>
+            @Html.ActionLink("Voltar", "Index")
         </div>
         <div class="col-lg-6" style="text-align:right;">
-            <button type="button" class="btn btn-default">Avançar</button>
+            <button type="submit" name="submit" id="avancar" value="avancar" class="btn btn-default">Avançar</button>
         </div>
     </div>
 
-</form>
+
+
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

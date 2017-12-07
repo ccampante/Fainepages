@@ -9,6 +9,12 @@ namespace Fainepages.Models
     [Table("Template")]
     public partial class Template
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Template()
+        {
+            Atributo = new HashSet<Atributo>();
+        }
+
         public int TemplateId { get; set; }
 
         [Required]
@@ -27,12 +33,27 @@ namespace Fainepages.Models
 
         public bool Formulario { get; set; }
 
+        [Column(TypeName = "ntext")]
+        public string FormularioCode { get; set; }
+
         public bool Analytics { get; set; }
+
+        [Column(TypeName = "ntext")]
+        public string AnalyticsCode { get; set; }
 
         public bool TagManager { get; set; }
 
+        [Column(TypeName = "ntext")]
+        public string TagManagerCode { get; set; }
+
         public bool Smartlook { get; set; }
 
+        [Column(TypeName = "ntext")]
+        public string SmartlookCode { get; set; }
+
         public DateTime DtCriacao { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Atributo> Atributo { get; set; }
     }
 }
